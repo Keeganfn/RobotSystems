@@ -220,4 +220,4 @@ if __name__ == "__main__":
     time.sleep(1)
     px.forward(50)
     time.sleep(1)
-    atexit(px.stop)
+    atexit.register(px.stop)
