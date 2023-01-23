@@ -171,6 +171,21 @@ class Picarx(object):
             self.set_motor_speed(1, -1*speed)
             self.set_motor_speed(2, speed)  
 
+    def maneuver_move_forward_back(self):
+        self.forward(50)
+        time.sleep(1)
+        self.backward(50)
+        time.sleep(1)
+        self.stop()
+    
+    def maneuver_park_left(self):
+        self.set_dir_servo_angle(-30)
+        self.backward(50)
+        time.sleep(1)
+        self.set_dir_servo_angle(30)
+        time.sleep(.5)
+        self.stop()
+
     def forward(self,speed):
         current_angle = self.dir_current_angle
         if current_angle != 0:
@@ -214,14 +229,16 @@ class Picarx(object):
 
 if __name__ == "__main__":
     px = Picarx()
-    px.forward(50)
-    time.sleep(1)
-    px.set_dir_servo_angle(20)
-    px.forward(50)
-    time.sleep(1)
-    px.backward(50)
-    time.sleep(1)
-    px.set_dir_servo_angle(-20)
-    px.forward(50)
-    time.sleep(1)
+    px.maneuver_move_forward_back()
+    px.maneuver_park_left()
+    # px.forward(50)
+    # time.sleep(1)
+    # px.set_dir_servo_angle(20)
+    # px.forward(50)
+    # time.sleep(1)
+    # px.backward(50)
+    # time.sleep(1)
+    # px.set_dir_servo_angle(-20)
+    # px.forward(50)
+    # time.sleep(1)
     atexit.register(px.stop)
