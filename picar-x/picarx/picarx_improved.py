@@ -183,7 +183,29 @@ class Picarx(object):
         self.backward(50)
         time.sleep(1)
         self.set_dir_servo_angle(30)
-        time.sleep(.5)
+        time.sleep(.8)
+        self.set_dir_servo_angle(0)
+        self.stop()
+    
+    def maneuver_park_right(self):
+        self.set_dir_servo_angle(30)
+        self.backward(50)
+        time.sleep(1)
+        self.set_dir_servo_angle(-30)
+        time.sleep(.8)
+        self.set_dir_servo_angle(0)
+        self.stop()
+
+    def maneuver_k_turn(self):
+        self.set_dir_servo_angle(30)
+        self.forward(50)
+        time.sleep(1.5)
+        self.set_dir_servo_angle(-30)
+        self.backward(50)
+        time.sleep(1.5)
+        self.set_dir_servo_angle(0)
+        self.forward(50)
+        time.sleep(1)
         self.stop()
 
     def forward(self,speed):
@@ -231,6 +253,9 @@ if __name__ == "__main__":
     px = Picarx()
     px.maneuver_move_forward_back()
     px.maneuver_park_left()
+    px.maneuver_move_forward_back()
+    px.maneuver_park_right()
+    px.maneuver_k_turn()
     # px.forward(50)
     # time.sleep(1)
     # px.set_dir_servo_angle(20)
