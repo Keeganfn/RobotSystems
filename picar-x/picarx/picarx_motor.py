@@ -15,18 +15,12 @@ except ImportError :
 
 
 
-# reset_mcu()
-# time.sleep(0.2)
-
-# user and User home directory
 User = os.popen('echo ${SUDO_USER:-$LOGNAME}').readline().strip()
 UserHome = os.popen('getent passwd %s | cut -d: -f 6'%User).readline().strip()
-# print(User)  # pi
-# print(UserHome) # /home/pi
 config_file = '%s/.config/picar-x/picar-x.conf'%UserHome
 
 
-class Picarx(object):
+class PicarxMotor(object):
     PERIOD = 4095
     PRESCALER = 10
     TIMEOUT = 0.02
@@ -70,15 +64,13 @@ class Picarx(object):
         for pin in self.motor_speed_pins:
             pin.period(self.PERIOD)
             pin.prescaler(self.PRESCALER)
-        # grayscale module init
-        # usage: self.grayscale.get_grayscale_data()
-        adc0, adc1, adc2 = grayscale_pins
-        self.grayscale = Grayscale_Module(adc0, adc1, adc2, reference=1000)
-        # ultrasonic init
-        # usage: distance = self.ultrasonic.read()
-        tring, echo= ultrasonic_pins
-        self.ultrasonic = Ultrasonic(Pin(tring), Pin(echo))
-        
+        atexit.register(self.cleanup)
+
+    def cleanup(self):
+        self.stop()
+        self.set_camera_servo1_angle(0)
+        self.set_camera_servo2_angle(0)
+        self.set_dir_servo_angle(0)
 
     def set_motor_speed(self,motor,speed):
         # global cali_speed_value,cali_dir_value
@@ -171,44 +163,6 @@ class Picarx(object):
             self.set_motor_speed(1, -1*speed)
             self.set_motor_speed(2, speed)  
 
-    def maneuver_move_forward_back(self):
-        self.forward(50)
-        time.sleep(1)
-        self.backward(50)
-        time.sleep(1)
-        self.stop()
-    
-    def maneuver_park_left(self):
-        self.set_dir_servo_angle(-30)
-        self.backward(50)
-        time.sleep(1)
-        self.set_dir_servo_angle(30)
-        time.sleep(.8)
-        self.set_dir_servo_angle(0)
-        self.stop()
-    
-    def maneuver_park_right(self):
-        self.set_dir_servo_angle(30)
-        self.backward(50)
-        time.sleep(1)
-        self.set_dir_servo_angle(-30)
-        time.sleep(.8)
-        self.set_dir_servo_angle(0)
-        self.stop()
-
-    def maneuver_k_turn(self):
-        self.set_dir_servo_angle(30)
-        self.forward(50)
-        time.sleep(1.5)
-        self.set_dir_servo_angle(-30)
-        self.backward(50)
-        time.sleep(1.5)
-        self.set_dir_servo_angle(30)
-        self.forward(50)
-        time.sleep(1)
-        self.set_dir_servo_angle(0)
-        self.stop()
-
     def forward(self,speed):
         current_angle = self.dir_current_angle
         if current_angle != 0:
@@ -237,34 +191,7 @@ class Picarx(object):
         self.set_motor_speed(1, 0)
         self.set_motor_speed(2, 0)
 
-    def get_distance(self):
-        return self.ultrasonic.read()
-
-    def set_grayscale_reference(self, value):
-        self.get_grayscale_reference = value
-        
-    def get_grayscale_data(self):
-        return list.copy(self.grayscale.get_grayscale_data())
-
-    def get_line_status(self,gm_val_list):
-        return str(self.grayscale.get_line_status(gm_val_list))
 
 
 if __name__ == "__main__":
-    px = Picarx()
-    px.maneuver_move_forward_back()
-    px.maneuver_park_left()
-    px.maneuver_move_forward_back()
-    px.maneuver_park_right()
-    px.maneuver_k_turn()
-    # px.forward(50)
-    # time.sleep(1)
-    # px.set_dir_servo_angle(20)
-    # px.forward(50)
-    # time.sleep(1)
-    # px.backward(50)
-    # time.sleep(1)
-    # px.set_dir_servo_angle(-20)
-    # px.forward(50)
-    # time.sleep(1)
-    atexit.register(px.stop)
+    pass
