@@ -218,6 +218,7 @@ class Picarx(object):
             value = self.photo_interpret.check_center(data)
             print(f"DATA: {data}\nVALUE: {value}")
             self.set_dir_servo_angle(40 * value)
+            time.sleep(.1)
 
 
     def forward(self,speed):
