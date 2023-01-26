@@ -211,8 +211,8 @@ class Picarx(object):
         self.set_dir_servo_angle(0)
         self.stop()
     
-    def maneuver_follow_line(self, time=10):
-        t_end = time.time() + time
+    def maneuver_follow_line(self, t=10):
+        t_end = time.time() + t
         while time.time() < t_end:
             data = self.get_grayscale_data()
             value = self.photo_interpret.check_center(data)
