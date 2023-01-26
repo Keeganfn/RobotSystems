@@ -29,8 +29,8 @@ class PhotosensorInterpreter():
             self.g3.append(grayscale[2])
 
         curr_g1 = sum(self.g1)/len(self.g1) - grayscale[0] 
-        curr_g2 = sum(self.g2)/len(self.g2) - grayscale[0] 
-        curr_g3 = sum(self.g3)/len(self.g3) - grayscale[0] 
+        curr_g2 = sum(self.g2)/len(self.g2) - grayscale[1] 
+        curr_g3 = sum(self.g3)/len(self.g3) - grayscale[2] 
 
         print("CURRENT", [curr_g1, curr_g2, curr_g3])
 
