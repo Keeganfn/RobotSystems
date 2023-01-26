@@ -216,6 +216,7 @@ class Picarx(object):
         while time.time() < t_end:
             data = self.get_grayscale_data()
             value = self.photo_interpret.check_center(data)
+            print(f"DATA: {data}\nVALUE: {value}")
             self.set_dir_servo_angle(40 * value)
 
 
