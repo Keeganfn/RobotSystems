@@ -4,6 +4,7 @@
 import time
 import os
 import atexit
+import photosensor_interprer
 try :
     from robot_hat import *
     from robot_hat import reset_mcu
@@ -78,6 +79,7 @@ class Picarx(object):
         # usage: distance = self.ultrasonic.read()
         tring, echo= ultrasonic_pins
         self.ultrasonic = Ultrasonic(Pin(tring), Pin(echo))
+        self.photo_interpret = photosensor_interprer.PhotosensorInterpreter(1500, 500, 1)
         
 
     def set_motor_speed(self,motor,speed):
@@ -208,6 +210,14 @@ class Picarx(object):
         time.sleep(1)
         self.set_dir_servo_angle(0)
         self.stop()
+    
+    def maneuver_follow_line(self, time=10):
+        t_end = time.time() + time
+        while time.time() < t_end:
+            data = self.get_grayscale_data()
+            value = self.photo_interpret.check_center(data)
+            self.set_dir_servo_angle(40 * value)
+
 
     def forward(self,speed):
         current_angle = self.dir_current_angle
@@ -252,11 +262,12 @@ class Picarx(object):
 
 if __name__ == "__main__":
     px = Picarx()
-    px.maneuver_move_forward_back()
-    px.maneuver_park_left()
-    px.maneuver_move_forward_back()
-    px.maneuver_park_right()
-    px.maneuver_k_turn()
+    # px.maneuver_move_forward_back()
+    # px.maneuver_park_left()
+    # px.maneuver_move_forward_back()
+    # px.maneuver_park_right()
+    # px.maneuver_k_turn()
+    px.maneuver_follow_line()
     # px.forward(50)
     # time.sleep(1)
     # px.set_dir_servo_angle(20)
