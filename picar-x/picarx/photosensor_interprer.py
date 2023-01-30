@@ -39,9 +39,9 @@ class PhotosensorInterpreter():
         self.g3.append(grayscale[2])
         total = 0
         if curr_g1 > curr_g3:
-            total = -(curr_g1 / sum(self.g1)/len(self.g1))
+            total = -(curr_g1)
         if curr_g1 < curr_g3:
-            total = (curr_g1 / sum(self.g1)/len(self.g1))
+            total = (curr_g3)
         if curr_g2 < curr_g1 and curr_g2 < curr_g3:
             total = 0
         print("TOTAL: ", total)
