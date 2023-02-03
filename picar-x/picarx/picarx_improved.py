@@ -263,21 +263,4 @@ class Picarx(object):
 
 
 if __name__ == "__main__":
-    px = Picarx()
-    # px.maneuver_move_forward_back()
-    # px.maneuver_park_left()
-    # px.maneuver_move_forward_back()
-    # px.maneuver_park_right()
-    # px.maneuver_k_turn()
-    px.maneuver_follow_line()
-    # px.forward(50)
-    # time.sleep(1)
-    # px.set_dir_servo_angle(20)
-    # px.forward(50)
-    # time.sleep(1)
-    # px.backward(50)
-    # time.sleep(1)
-    # px.set_dir_servo_angle(-20)
-    # px.forward(50)
-    # time.sleep(1)
-    atexit.register(px.stop)
+    pass

@@ -17,12 +17,6 @@ class PhotosensorInterpreter():
 
 
     def check_center(self, grayscale):
-        # if self.g1 is None:
-        #     self.g1 = grayscale[0]
-        # if self.g2 is None:
-        #     self.g2 = grayscale[1]
-        # if self.g3 is None:
-        #     self.g3 = grayscale[2]
         if len(self.g1) == 0:
             self.g1.append(grayscale[0])
             self.g2.append(grayscale[1])
@@ -44,7 +38,8 @@ class PhotosensorInterpreter():
             total = (curr_g3)
         if curr_g2 < curr_g1 and curr_g2 < curr_g3:
             total = 0
-        print("TOTAL: ", total)
+
+
         return total
 
 
