@@ -16,6 +16,13 @@ class PhotosensorInterpreter():
         data = deque([], maxlen=10)
 
 
+    def consumer_producer(self, input_bus, output_bus, delay):
+        while True:
+            photosensor_msg = input_bus.read()
+            response = self.check_center(photosensor_msg)
+            output_bus.write(response)
+            time.sleep(delay)
+
     def check_center(self, grayscale):
         if len(self.g1) == 0:
             self.g1.append(grayscale[0])

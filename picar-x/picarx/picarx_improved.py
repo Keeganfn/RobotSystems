@@ -4,8 +4,10 @@
 import time
 import os
 import atexit
-import photosensor_interprer
+import photosensor_interpreter
+import picarx_sensors
 try :
+    
     from robot_hat import *
     from robot_hat import reset_mcu
     reset_mcu()
@@ -73,13 +75,7 @@ class Picarx(object):
             pin.prescaler(self.PRESCALER)
         # grayscale module init
         # usage: self.grayscale.get_grayscale_data()
-        adc0, adc1, adc2 = grayscale_pins
-        self.grayscale = Grayscale_Module(adc0, adc1, adc2, reference=1000)
-        # ultrasonic init
-        # usage: distance = self.ultrasonic.read()
-        tring, echo= ultrasonic_pins
-        self.ultrasonic = Ultrasonic(Pin(tring), Pin(echo))
-        self.photo_interpret = photosensor_interprer.PhotosensorInterpreter(1500, 500, 1)
+        self.sensors = picarx_sensors.PicarxSensors(grayscale_pins, ultrasonic_pins)
         
 
     def set_motor_speed(self,motor,speed):
@@ -248,18 +244,6 @@ class Picarx(object):
     def stop(self):
         self.set_motor_speed(1, 0)
         self.set_motor_speed(2, 0)
-
-    def get_distance(self):
-        return self.ultrasonic.read()
-
-    def set_grayscale_reference(self, value):
-        self.get_grayscale_reference = value
-        
-    def get_grayscale_data(self):
-        return list.copy(self.grayscale.get_grayscale_data())
-
-    def get_line_status(self,gm_val_list):
-        return str(self.grayscale.get_line_status(gm_val_list))
 
 
 if __name__ == "__main__":
