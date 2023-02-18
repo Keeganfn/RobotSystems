@@ -11,5 +11,5 @@ class MessageBus():
             self.msg = msg
 
     def read(self):
-        with self.lock.gen_rlock ():
+        with self.lock.gen_rlock():
             return self.msg

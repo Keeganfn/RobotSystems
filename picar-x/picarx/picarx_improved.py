@@ -6,13 +6,14 @@ import os
 import atexit
 import photosensor_interpreter
 import picarx_sensors
-try :
-    
+try:  
+    import rossros
     from robot_hat import *
     from robot_hat import reset_mcu
     reset_mcu()
     time.sleep(0.01)
 except ImportError :
+    import rossros
     print (" This computer does not appear to be a PiCar - X system (robot_hat is not present ) . Shadowing hardware calls with substitute functions ")
     from sim_robot_hat import *
 
